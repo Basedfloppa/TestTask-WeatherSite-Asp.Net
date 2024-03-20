@@ -1,0 +1,65 @@
+﻿@model List<db_context.Weather>
+@{
+    ViewData["Title"] = "Weather";
+}
+<h1>@ViewData["Title"]</h1>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Time</th>
+        <th>Temperature</th>
+        <th>Dew point</th>
+        <th>Air pressure</th>
+        <th>Wind direction</th>
+        <th>Wind Speed</th>
+        <th>Cloudiness %</th>
+        <th>Lower cloudiness threshold</th>
+        <th>Horisontal visibility</th>
+        <th>Weather conditions</th>
+    </tr>
+    @foreach(var item in Model)
+    { 
+        <tr>
+            <th>@item.Date</th>
+            <th>@item.Time.ToString("hh:mm")</th>
+            <th>@item.Temperature</th>
+            <th>@item.DewPoint</th>
+            <th>@item.Pressure</th>
+            <th>@item.AirDirection</th>
+            <th>@item.AirSpeed</th>
+            <th>@item.Cloudiness</th>
+            <th>@item.LowerCloudinessTreshold</th>
+            <th>@item.HorisontalVisibility</th>
+            <th>@item.WeatherConditions</th>
+        </tr>
+    }
+</table>
+
+<table>
+    <tr>
+        @if (@Convert.ToInt32(Context.GetRouteData().Values["id"]) > 1 )
+            {<a href = '@($"/Home/Data/{Convert.ToInt32(Context.GetRouteData().Values["id"]) - 1}")'> prev </a>}
+        else {<a> prev </a>}
+        @if (Context.GetRouteData().Values["id"] == null) {<span>1</span>} else {<span>@Context.GetRouteData().Values["id"]</span>}
+        <a href = '@($"/Home/Data/{Convert.ToInt32(Context.GetRouteData().Values["id"]) + 1}/")'> next </a>
+    </tr>
+</table>
+
+<style>
+    table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+    }
+
+    tr:nth-child(even) {
+    background-color: #dddddd;
+    }
+</style>
