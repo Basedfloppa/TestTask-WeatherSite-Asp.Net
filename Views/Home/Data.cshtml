@@ -1,8 +1,10 @@
-﻿@model List<db_context.Weather>
+﻿@using System.Globalization
+@model List<db_context.Weather>
 @{
-    ViewData["Title"] = "Weather";
+    DateTime currentMonth = DateTime.Now;
+    int currentYear = currentMonth.Year;
+    int currentMonthNumber = currentMonth.Month;
 }
-<h1>@ViewData["Title"]</h1>
 
 <table>
     <tr>
@@ -15,51 +17,76 @@
         <th>Wind Speed</th>
         <th>Cloudiness %</th>
         <th>Lower cloudiness threshold</th>
-        <th>Horisontal visibility</th>
+        <th>Horizontal visibility</th>
         <th>Weather conditions</th>
     </tr>
     @foreach(var item in Model)
     { 
         <tr>
-            <th>@item.Date</th>
-            <th>@item.Time.ToString("hh:mm")</th>
-            <th>@item.Temperature</th>
-            <th>@item.DewPoint</th>
-            <th>@item.Pressure</th>
-            <th>@item.AirDirection</th>
-            <th>@item.AirSpeed</th>
-            <th>@item.Cloudiness</th>
-            <th>@item.LowerCloudinessTreshold</th>
-            <th>@item.HorisontalVisibility</th>
-            <th>@item.WeatherConditions</th>
+            <td>@item.Date.ToString("yyyy-MM-dd")</td>
+            <td>@item.Time.ToString("hh:mm")</td>
+            <td>@item.Temperature</td>
+            <td>@item.DewPoint</td>
+            <td>@item.Pressure</td>
+            <td>@item.AirDirection</td>
+            <td>@item.AirSpeed</td>
+            <td>@item.Cloudiness</td>
+            <td>@item.LowerCloudinessTreshold</td>
+            <td>@item.HorizontalVisibility</td>
+            <td>@item.WeatherConditions</td>
         </tr>
     }
 </table>
 
-<table>
-    <tr>
-        @if (@Convert.ToInt32(Context.GetRouteData().Values["id"]) > 1 )
-            {<a href = '@($"/Home/Data/{Convert.ToInt32(Context.GetRouteData().Values["id"]) - 1}")'> prev </a>}
-        else {<a> prev </a>}
-        @if (Context.GetRouteData().Values["id"] == null) {<span>1</span>} else {<span>@Context.GetRouteData().Values["id"]</span>}
-        <a href = '@($"/Home/Data/{Convert.ToInt32(Context.GetRouteData().Values["id"]) + 1}/")'> next </a>
-    </tr>
-</table>
+<div>
+    <form method="get" action="@Url.Action("Data", "Home")">
+        <label for="year">Year:</label>
+        <select name="year" id="year">
+            @for (int i = currentYear; i >= 2010; i--)
+            {
+                <option value="@i">@i</option>
+            }
+        </select>
+
+        <label for="month">Month:</label>
+        <select name="month" id="month">
+            @for (int j = 1; j <= 12; j++)
+            {
+                var monthName = CultureInfo.CurrentCulture.DateTimeFormat.GetMonthName(j);
+                <option value="@j">@monthName</option>
+            }
+        </select>
+
+        <button type="submit">Search</button>
+    </form>
+</div>
+
+<div>
+    @if (Model.Any())
+    {
+        @if (Model.Any() && Convert.ToInt32(Context.GetRouteData().Values["id"]) > 1)
+        {
+            <a href="@Url.Action("Data", "Home", new { year = Context.Request.Query["year"], month = Context.Request.Query["month"], id = Convert.ToInt32(Context.GetRouteData().Values["id"]) - 1 })">Previous</a>
+        }
+        <span>@Context.GetRouteData().Values["id"]</span>
+        <a href="@Url.Action("Data", "Home", new { year = Context.Request.Query["year"], month = Context.Request.Query["month"], id = Convert.ToInt32(Context.GetRouteData().Values["id"]) + 1 })">Next</a>
+    }
+</div>
 
 <style>
     table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
     }
 
     td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
     }
 
     tr:nth-child(even) {
-    background-color: #dddddd;
+        background-color: #dddddd;
     }
 </style>

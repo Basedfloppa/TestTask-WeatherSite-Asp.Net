@@ -30,7 +30,7 @@ public partial class WeatherContext : DbContext
             entity.Property(e => e.AirSpeed).HasColumnName("air_speed");
             entity.Property(e => e.Cloudiness).HasColumnName("cloudiness");
             entity.Property(e => e.DewPoint).HasColumnName("dew_point");
-            entity.Property(e => e.HorisontalVisibility).HasColumnName("horisontal_visibility");
+            entity.Property(e => e.HorizontalVisibility).HasColumnName("horisontal_visibility");
             entity.Property(e => e.LowerCloudinessTreshold).HasColumnName("lower_cloudiness_treshold");
             entity.Property(e => e.Pressure).HasColumnName("pressure");
             entity.Property(e => e.Temperature).HasColumnName("temperature");

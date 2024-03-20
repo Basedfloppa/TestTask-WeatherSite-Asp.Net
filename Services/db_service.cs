@@ -52,7 +52,7 @@ namespace DatabaseService
                                     AirSpeed = Convert.ToByte(row.GetCell(7).NumericCellValue),
                                     Cloudiness = Convert.ToByte(row.GetCell(8).NumericCellValue),
                                     LowerCloudinessTreshold = Convert.ToUInt16(row.GetCell(9).NumericCellValue),
-                                    HorisontalVisibility = Convert.ToByte(row.GetCell(10).NumericCellValue),
+                                    HorizontalVisibility = Convert.ToByte(row.GetCell(10).NumericCellValue),
                                     WeatherConditions = row.GetCell(11).StringCellValue
                                 };
                                 

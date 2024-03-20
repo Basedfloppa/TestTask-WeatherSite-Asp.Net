@@ -22,7 +22,7 @@ public partial class Weather
 
     public ushort LowerCloudinessTreshold { get; set; }
 
-    public byte HorisontalVisibility { get; set; }
+    public byte HorizontalVisibility { get; set; }
 
     public string? WeatherConditions{ get; set; }
 }
